@@ -83,7 +83,7 @@ Available field types:
 
 #### Admin styles
 
-`styles` - A nested array that defines new styles:
+`$styles` - A nested array that defines new styles:
 
 	$styles = array(
 		'my_first_style' => array(
