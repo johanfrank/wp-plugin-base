@@ -11,7 +11,7 @@ Extendable PHP class for creation of WordPress plugins. Just include the class i
 
 * Handles reading and writing post meta automatically.
 * Removes all post meta when uninstalling plugin.
-* Sets up and registers metaboxes, custom post types and taxonomies.
+* Sets up and registers metaboxes, custom post types, taxonomies, scripts and styles.
 * Renders metaboxes automatically, if not explicitly rendered by render().
 
 ## Properties
