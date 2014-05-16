@@ -74,5 +74,3 @@ Available field types:
 
 * `render($template = null)`
 Explicitly render a custom template in `/templates/`.
-* `read_meta($key = null)`
-Use this to quickly load post meta for current post. If `$key` is omitted, all post meta fields will be read.
