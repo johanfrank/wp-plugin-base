@@ -76,12 +76,20 @@ Available field types:
 
 	$scripts = array(
 		'my_first_script' => array(
-			'path' => '/scripts/first.js',
+			'path' => '/js/first.js',
 			'dependency' => array('jquery')
 		),
 	);
 
 #### Admin styles
+
+`styles` - A nested array that defines new styles:
+
+	$styles = array(
+		'my_first_style' => array(
+			'path' => '/css/first.css'
+		),
+	);
 
 ## Methods
 
