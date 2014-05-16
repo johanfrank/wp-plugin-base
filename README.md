@@ -10,7 +10,7 @@ Extendable PHP class for creation of WordPress plugins. Just include the class i
 ## Features
 
 * Handles reading and writing post_meta automatically.
-* Removes all post_meta when uninstalling plugin.
+* Removes all post meta when uninstalling plugin.
 * Sets up and registers metaboxes, custom post types and taxonomies.
 * Renders metaboxes automatically, if not explicitly rendered by render().
 
@@ -72,5 +72,7 @@ Available field types:
 
 ## Methods
 
-* `render()`
-* `read_meta($key = null)` - Use this to quickly load post_meta for current post. If `$key` is omitted, all post_meta fields will be read.
+* `render($template = null)`
+Explicitly render a custom template in `/templates/`.
+* `read_meta($key = null)`
+Use this to quickly load post meta for current post. If `$key` is omitted, all post meta fields will be read.
