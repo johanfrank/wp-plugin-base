@@ -70,6 +70,19 @@ Available field types:
 
 `$taxonomies` - A nested array that defines new taxonomies:
 
+#### Admin scripts
+
+`$scripts` - A nested array that defines new scripts:
+
+	$scripts = array(
+		'my_first_script' => array(
+			'path' => '/scripts/first.js',
+			'dependency' => array('jquery')
+		),
+	);
+
+#### Admin styles
+
 ## Methods
 
 * `render($template = null)`<br>
