@@ -16,22 +16,38 @@ Extendable PHP class for creation of WordPress plugins. Just include the class i
 
 ## Properties
 
+#### Basics
+
 * `$plugin_name` - Name of your plugin.
 * `$plugin_slug` - Lowercase, URL friendly version of `$plugin_name`.
 * `$translate_domain` (optional) - Must be defined if you want to use proper localization.
-* `$metaboxes` - A nested array that defines individual metaboxes and their fields:
 
-		$metaboxes = array(
-			'first_metabox' => array(
-				array('field_key' => 'field_one_key', 'field_name' => 'field_one_name', 'type' => 'text'),
-				array('field_key' => 'field_two_key', 'field_name' => 'field_two_name', 'type' => 'color'),
-				array('field_key' => 'field_three_key', 'field_name' => 'field_three_name', 'type' => 'media'),
-			)
-		);
+#### Metaboxes
 
-* `$posttypes` - A nested array that defines new custom post types:
+A nested array (`$metaboxes`) that defines individual metaboxes and their fields:
 
-* `$taxonomies` - A nested array that defines new taxonomies:
+	$metaboxes = array(
+		'first_metabox' => array(
+			array('field_key' => 'field_one_key', 'field_name' => 'field_one_name', 'type' => 'text'),
+			array('field_key' => 'field_two_key', 'field_name' => 'field_two_name', 'type' => 'color'),
+			array('field_key' => 'field_three_key', 'field_name' => 'field_three_name', 'type' => 'media'),
+		)
+	);
+
+Available field types:
+* `text` - Default input type.
+* `color` - An input text with built-in colorpicker.
+* `media` - An input text with built-in media gallery overlay.
+* `checkbox` - One or many key-value pairs, set by defining `values` as an array.
+* `radio` - Like checkbox only rendered as radio buttons.
+	
+#### Post types
+
+`$posttypes` - A nested array that defines new custom post types:
+
+#### Taxonomies
+
+`$taxonomies` - A nested array that defines new taxonomies:
 
 ## Methods
 
