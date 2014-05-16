@@ -73,3 +73,4 @@ Available field types:
 ## Methods
 
 * `render()`
+* `read_meta($key = null)` - Use this to quickly load post_meta for current post. If `$key` is omitted, all post_meta fields will be read.
