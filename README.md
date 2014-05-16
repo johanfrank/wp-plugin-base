@@ -21,13 +21,13 @@ Extendable PHP class for creation of WordPress plugins. Just include the class i
 * `$translate_domain` (optional) - Must be defined if you want to use proper localization.
 * `$metaboxes` - A nested array that defines individual metaboxes and their fields:
 
-	$metaboxes = array(
-		'first_metabox' => array(
-			array('field_key' => 'field_one_key', 'field_name' => 'field_one_name', 'type' => 'text'),
-			array('field_key' => 'field_two_key', 'field_name' => 'field_two_name', 'type' => 'color'),
-			array('field_key' => 'field_three_key', 'field_name' => 'field_three_name', 'type' => 'media'),
-		)
-	);
+		$metaboxes = array(
+			'first_metabox' => array(
+				array('field_key' => 'field_one_key', 'field_name' => 'field_one_name', 'type' => 'text'),
+				array('field_key' => 'field_two_key', 'field_name' => 'field_two_name', 'type' => 'color'),
+				array('field_key' => 'field_three_key', 'field_name' => 'field_three_name', 'type' => 'media'),
+			)
+		);
 
 * `$posttypes` - A nested array that defines new custom post types:
 
