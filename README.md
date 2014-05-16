@@ -72,5 +72,5 @@ Available field types:
 
 ## Methods
 
-* `render($template = null)`
+* `protected function render($template = null)`<br>
 Explicitly render a custom template in `/templates/`.
