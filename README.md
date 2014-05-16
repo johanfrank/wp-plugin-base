@@ -28,9 +28,30 @@ A nested array (`$metaboxes`) that defines individual metaboxes and their fields
 
 	$metaboxes = array(
 		'first_metabox' => array(
-			array('field_key' => 'field_one_key', 'field_name' => 'field_one_name', 'type' => 'text'),
-			array('field_key' => 'field_two_key', 'field_name' => 'field_two_name', 'type' => 'color'),
-			array('field_key' => 'field_three_key', 'field_name' => 'field_three_name', 'type' => 'media'),
+			array(
+				'field_key' => 'field_one_key',
+				'field_name' => 'field_one_name',
+				'type' => 'text'
+			),
+			array(
+				'field_key' => 'field_two_key', 
+				'field_name' => 'field_two_name', 
+				'type' => 'color'
+			),
+			array(
+				'field_key' => 'field_three_key', 
+				'field_name' => 'field_three_name', 
+				'type' => 'media'
+			),
+			array(
+				'field_key' => 'field_four_key', 
+				'field_name' => 'field_four_name', 
+				'type' => 'checkbox', 
+				'values' => array(
+					0 => 'no',
+					1 => 'yes'
+				)
+			),
 		)
 	);
 
