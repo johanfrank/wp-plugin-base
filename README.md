@@ -1,5 +1,5 @@
-wppluginbase
-============
+wp-plugin-base
+==============
 
 Extendable PHP class for creation of WordPress plugins. Just include the class in your project and use:
 
