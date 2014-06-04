@@ -1,6 +1,6 @@
 WPB - WP Plugin Base
 ====================
-1.0 - June 4th 2014
+0.1 - June 4th 2014
 
 Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-base.php` in your project and extend the Base class:
 
@@ -15,7 +15,8 @@ Most of the magic in WPB happens in the constructor, where you set up fields in 
 * Handles reading and writing post meta automatically.
 * Removes all post meta when uninstalling plugin.
 * Sets up and registers metaboxes, custom post types, taxonomies, scripts and styles.
-* Renders metaboxes automatically, if not explicitly rendered by render().
+* Renders metaboxes automatically, if custom render method isn't defined.
+* Offers simple hooks before saving and rendering for custom cases.
 
 #### Prefix
 
@@ -87,26 +88,45 @@ For slug and unique identifier, the key is used (`cpt_book` and `cpt_bookcase` i
 
 `$taxonomies` - A nested array that defines new taxonomies:
 
+	$this->taxonomies = array(
+		'tax_genre' => array(
+			'custom_post_types' => 'cpt_book',
+			'post_types' => array(),
+			'args' => array(
+				'label' => __('Genres', $this->translate_domain)
+			)
+		)
+	);
+
+The arguments in `args` are the same as in [register_taxonomy](https://codex.wordpress.org/Function_Reference/register_taxonomy).
+
 #### Admin scripts
 
 `$scripts` - A nested array that defines new scripts:
 
-	$scripts = array(
-		'my_first_script' => array(
-			'path' => '/js/first.js',
-			'dependency' => array('jquery')
-		),
+	$this->scripts = array(
+		'script_example' => array(
+			'src' => '/js/example.js',
+			'deps' => array('jquery')
+		)
 	);
+
+The arguments are the same as for [wp_enqueue_script](https://codex.wordpress.org/Function_Reference/wp_enqueue_script).
 
 #### Admin styles
 
-`$styles` - A nested array that defines new styles:
+`$stylesheets` - A nested array that defines new styles:
 
-	$styles = array(
-		'my_first_style' => array(
-			'path' => '/css/first.css'
-		),
+	$this->stylesheets = array(
+		'script_example' => array(
+			'src' => 'css/example.css',
+			'deps' => array(),
+			'ver' => false,
+			'media' => 'all'
+		)
 	);
+
+The arguments are the same as for [wp_enqueue_style](https://codex.wordpress.org/Function_Reference/wp_enqueue_style).
 
 ## Callback functions
 
