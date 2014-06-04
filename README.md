@@ -2,11 +2,13 @@ WPB - WP Plugin Base
 ====================
 1.0 - June 4th 2014
 
-Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-base.php` in your project and use:
+Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-base.php` in your project and extend the Base class:
 
 	class MyPlugin extends WPB\Base {
 		# stuff
 	}
+
+Most of the magic in WPB happens in the constructor, where you set up fields in an associative array and calls the parent constructor to initiate the heavy lifting. You can see a simple working example of how to use the class in `example.php`.
 
 ## Features
 
@@ -136,7 +138,7 @@ In this example (which is taken from `example.php`), we set up a post meta field
 		return '<label>'.$data['label'] . '<br><input name="'.$meta_key.'_meta_value_field" type="text" class="widefat" value="'.$data['content'].'">Old value: '.$data['content'].'</label>';
 	}
 
-This will show us the old value from the saved value. Pointless? Yes, but you see the utility. Your custom render function will have the `meta_key` (in example: `writer`) and `data` (in example: array of `label`, `type`). In the same fashion, we can define our own callback functions with `before_render` and `before_save`.
+This will show us the old value below the input field as text as you edit the input field. Your custom render function will have the `meta_key` (in example: `writer`) and `data` (in example: array of `label`, `type`). In the same fashion, we can define our own callback functions with `before_render` and `before_save`:
 
 	public function custom_before_render($data) {
 		return $data;
