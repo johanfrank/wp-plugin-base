@@ -99,20 +99,7 @@ class Base {
 			die();
 		}
 
-		// Clear all saved post meta when uninstalling:
-
-		$all_posts = get_posts(array(
-			'posts_per_page' => -1,
-			'post_status' => 'any'
-		));
-
-		foreach ($all_posts as $post) {
-			foreach ($this->metaboxes as $mb_key => $mb) {
-				foreach ($mb['post_meta'] as $post_meta_key => $fields) {
-					delete_post_meta($post->ID, $this->project_prefix.'_'.$post_meta_key.'_'.$this->meta_key_postfix);
-				}
-			}			
-		}
+		// TODO: remove any created custom posts, taxonomy terms and post meta values!
 	}
 
 	public function register_cpt() {

@@ -69,7 +69,7 @@ Available field types:
 	
 #### Post types
 
-`$posttypes` - A nested array that defines new custom post types:
+`$post_types` - A nested array that defines new custom post types:
 
 	$this->post_types = array(
 		'cpt_book' => array(
