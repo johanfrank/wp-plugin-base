@@ -70,8 +70,7 @@ class ExamplePlugin extends WPB\Base {
 	}
 
 	public function custom_rendering_function($meta_key, $data) {
-
-		return 'my own rendering function.';
+		return '<label>'.$data['label'] . '<br><input name="'.$meta_key.'_meta_value_field" type="text" class="widefat" value="'.$data['content'].'">Old value: '.$data['content'].'</label>';
 	}
 
 	public function custom_before_render($data) {

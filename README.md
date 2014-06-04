@@ -1,10 +1,11 @@
-wp-plugin-base
-==============
+WPB - WP Plugin Base
+====================
+1.0 - June 4th 2014
 
-Extendable PHP class for creation of WordPress plugins. Just include the class in your project and use:
+Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-base.php` in your project and use:
 
-	class MyPlugin extends WP_Plugin_Base {
-		# stuff being done
+	class MyPlugin extends WPB\Base {
+		# stuff
 	}
 
 ## Features
@@ -14,45 +15,46 @@ Extendable PHP class for creation of WordPress plugins. Just include the class i
 * Sets up and registers metaboxes, custom post types, taxonomies, scripts and styles.
 * Renders metaboxes automatically, if not explicitly rendered by render().
 
-## Properties
+#### Prefix
 
-#### Basics
+It is recommended that you choose a project-specific slug to use as a prefix for all meta keys, values and various fields.
 
-* `$plugin_name` - Name of your plugin.
-* `$plugin_slug` - Lowercase, URL friendly version of `$plugin_name`.
-* `$translate_domain` (optional) - Must be defined if you want to use proper localization.
+Set it by defining `$project_prefix` in your class constructor:
+
+	$this->project_prefix = 'wpb';
 
 #### Metaboxes
 
-A nested array (`$metaboxes`) that defines individual metaboxes and their fields:
+A nested array (`$metaboxes`) that defines individual metaboxes and their post meta fields:
 
-	$metaboxes = array(
-		'first_metabox' => array(
-			array(
-				'field_key' => 'field_one_key',
-				'field_name' => 'field_one_name',
-				'type' => 'text'
+	$this->metaboxes = array(
+		'mb_book_details' => array(
+			'metabox' => array(
+				'title' => __('Book details', $this->translate_domain),
+				'post_type' => 'cpt_book',
+				'priority' => 'high',
+				'context' => 'side'
 			),
-			array(
-				'field_key' => 'field_two_key', 
-				'field_name' => 'field_two_name', 
-				'type' => 'color'
-			),
-			array(
-				'field_key' => 'field_three_key', 
-				'field_name' => 'field_three_name', 
-				'type' => 'media'
-			),
-			array(
-				'field_key' => 'field_four_key', 
-				'field_name' => 'field_four_name', 
-				'type' => 'checkbox', 
-				'values' => array(
-					0 => 'no',
-					1 => 'yes'
+			'post_meta' => array(
+				'writer' => array(
+					'label' => __('Writer', $this->translate_domain),
+					'type' => 'text',
 				)
+			)
+		),
+		'mb_bookcase_list' => array(
+			'metabox' => array(
+				'title' => __('List of books', $this->translate_domain),
+				'post_type' => 'cpt_bookcase',
+				'context' => 'side',
 			),
-		)
+			'post_meta' => array(
+				'books' => array(
+					'label' => __('Books', $this->translate_domain),
+					'type' => 'text'
+				)
+			)
+		),
 	);
 
 Available field types:
@@ -65,6 +67,19 @@ Available field types:
 #### Post types
 
 `$posttypes` - A nested array that defines new custom post types:
+
+	$this->post_types = array(
+		'cpt_book' => array(
+			'label' => __('Book', $this->translate_domain),
+			'public' => true
+		),
+		'cpt_bookcase' => array(
+			'label' => __('Bookcase', $this->translate_domain),
+			'public' => true,
+		),
+	);
+
+For slug and unique identifier, the key is used (`cpt_book` and `cpt_bookcase` in example). The arguments are the same as the second argument for [register_post_type](https://codex.wordpress.org/Function_Reference/register_post_type).
 
 #### Taxonomies
 
@@ -91,7 +106,44 @@ Available field types:
 		),
 	);
 
-## Methods
+## Callback functions
 
-* `render($template = null)`<br>
-Explicitly render a custom template in `/templates/`.
+By default WPB will load, save and render all post meta fields that are properly set up. But sometimes you need to render the field in a different way, or the data may require further operations to be presentable, either before rendering or before saving. You can set up your own functions, in your `post_meta` declarations in the `$metaboxes` setup:
+
+	$this->metaboxes = array(
+		'mb_book_details' => array(
+			'metabox' => array(
+				'title' => __('Book details', $this->translate_domain),
+				'post_type' => 'cpt_book',
+				'priority' => 'high',
+				'context' => 'side'
+			),
+			'post_meta' => array(
+				'writer' => array(
+					'label' => __('Writer', $this->translate_domain),
+					'type' => 'text',
+					'render' => 'custom_rendering_function',
+					'before_render' => 'custom_before_render',
+					'before_save' => 'custom_before_save'
+				)
+			)
+		),
+	);
+
+In this example (which is taken from `example.php`), we set up a post meta field called `writer` in our constructor. But we want to fetch the saved value and render it in a different way:
+
+	public function custom_rendering_function($meta_key, $data) {
+		return '<label>'.$data['label'] . '<br><input name="'.$meta_key.'_meta_value_field" type="text" class="widefat" value="'.$data['content'].'">Old value: '.$data['content'].'</label>';
+	}
+
+This will show us the old value from the saved value. Pointless? Yes, but you see the utility. Your custom render function will have the `meta_key` (in example: `writer`) and `data` (in example: array of `label`, `type`). In the same fashion, we can define our own callback functions with `before_render` and `before_save`.
+
+	public function custom_before_render($data) {
+		return $data;
+	}
+
+	public function custom_before_save($data) {
+		return $data;
+	}
+
+The before callback functions have one parameter, and that is the `$data` about to be saved as post meta.

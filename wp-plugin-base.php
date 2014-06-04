@@ -8,11 +8,12 @@ namespace WPB;
 
 class Base {
 
-	protected $plugin_base;
-	protected $plugin_rel_base;
-	protected $project_prefix;
 	protected $meta_key_postfix = 'meta_value_key';
 
+	protected $plugin_base;
+	protected $plugin_rel_base;
+
+	protected $project_prefix;
 	protected $post_types;
 
 	/**
