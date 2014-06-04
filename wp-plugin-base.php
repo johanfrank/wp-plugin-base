@@ -13,8 +13,8 @@ namespace WPB;
 */
 
 /**
- * WP Plugin Base
- * ==============
+ * WP Plugin Base 0.1
+ * ==================
  * Extendable PHP class for creation of WordPress plugins.
  * https://github.com/pjnorberg/wp-plugin-base
  *
@@ -55,35 +55,35 @@ class Base {
 		add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts_hook'));
 	}
 
-    public function admin_enqueue_scripts_hook($page) {
+	public function admin_enqueue_scripts_hook($page) {
 
-    	wp_enqueue_script('wpb-base', plugins_url($this->plugin_rel_base.'/wp-plugin-base.js'), array('jquery', 'wp-color-picker'));
-        wp_enqueue_style('wp-color-picker');
+		wp_enqueue_script('wpb-base', plugins_url($this->plugin_rel_base.'/wp-plugin-base.js'), array('jquery', 'wp-color-picker'));
+		wp_enqueue_style('wp-color-picker');
 
-        if ($this->stylesheets) {
-        	
-        	foreach ($this->stylesheets as $handle => $args) {
-        		
-        		$deps = (isset($args['deps']) ? $args['deps'] : array());
-        		$ver = (isset($args['ver']) ? $args['ver'] : false);
-        		$media = (isset($args['media']) ? $args['media'] : 'all');
+		if ($this->stylesheets) {
+			
+			foreach ($this->stylesheets as $handle => $args) {
+				
+				$deps = (isset($args['deps']) ? $args['deps'] : array());
+				$ver = (isset($args['ver']) ? $args['ver'] : false);
+				$media = (isset($args['media']) ? $args['media'] : 'all');
 
-        		wp_enqueue_style($this->project_prefix.'_'.$handle, plugins_url($this->plugin_rel_base.$args['src']), $deps, $ver, $media);
-        	}
-        }
+				wp_enqueue_style($this->project_prefix.'_'.$handle, plugins_url($this->plugin_rel_base.$args['src']), $deps, $ver, $media);
+			}
+		}
 
-        if ($this->scripts) {
+		if ($this->scripts) {
 
-        	foreach ($this->scripts as $handle => $args) {
-        		
-        		$deps = (isset($args['deps']) ? $args['deps'] : array());
-        		$ver = (isset($args['ver']) ? $args['ver'] : false);
-        		$in_footer = (isset($args['in_footer']) ? $args['in_footer'] : false);
+			foreach ($this->scripts as $handle => $args) {
+				
+				$deps = (isset($args['deps']) ? $args['deps'] : array());
+				$ver = (isset($args['ver']) ? $args['ver'] : false);
+				$in_footer = (isset($args['in_footer']) ? $args['in_footer'] : false);
 
-        		wp_enqueue_script($this->project_prefix.'_'.$handle, plugins_url($this->plugin_rel_base.$args['src']), $deps, $ver, $in_footer);
-        	}
-        }
-    }
+				wp_enqueue_script($this->project_prefix.'_'.$handle, plugins_url($this->plugin_rel_base.$args['src']), $deps, $ver, $in_footer);
+			}
+		}
+	}
 
 	public function activation_hook($network_wide) {
 
