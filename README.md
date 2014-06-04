@@ -16,7 +16,7 @@ Most of the magic in WPB happens in the constructor, where you set up fields in 
 * Sets up and registers metaboxes, custom post types, taxonomies, scripts and styles.
 * Renders metaboxes automatically, if custom render method isn't defined.
 * Offers simple hooks before saving and rendering for custom cases.
-* Removes all created data (posts, taxonomy terms, post meta values) when uninstalling plugin.
+* ~~Removes all created data (posts, taxonomy terms, post meta values) when uninstalling plugin.~~ (Not yet implemented.)
 
 #### Prefix
 
