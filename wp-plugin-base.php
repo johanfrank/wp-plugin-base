@@ -223,6 +223,14 @@ class Base {
 				$output .= $data['label'].'<br><input name="'.$meta_key.'_meta_value_field" type="email" class="widefat" value="'.$content.'">';
 				$output .= '</label>';
 				break;
+
+			case 'textarea':
+
+				$rows = (isset($data['rows']) ? $data['rows'] : 5 );
+				$output .= '<label>';
+				$output .= $data['label'].'<br><textarea name="'.$meta_key.'_meta_value_field" class="widefat" rows="'.$rows.'">'.$content.'</textarea>';
+				$output .= '</label>';
+				break;
 			
 			default:
 				$output .= '<label>';

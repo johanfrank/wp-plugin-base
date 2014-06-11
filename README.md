@@ -62,6 +62,7 @@ A nested array (`$metaboxes`) that defines individual metaboxes and their post m
 
 Available field types:
 * `text` - Default input type.
+* `textarea` - A textarea with option of `rows` (default: 5).
 * `color` - An input text with built-in colorpicker.
 * `media` - An input text with built-in media gallery overlay.
 * `checkbox` - One or many key-value pairs, set by defining `values` as an array.
