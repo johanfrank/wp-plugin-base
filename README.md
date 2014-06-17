@@ -1,6 +1,6 @@
 WPB - WP Plugin Base
 ====================
-0.1 - June 4th 2014
+0.2 - June 11th 2014
 
 Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-base.php` in your project and extend the Base class:
 
@@ -170,3 +170,8 @@ This will show us the old value below the input field as text as you edit the in
 	}
 
 The before callback functions have one parameter, and that is the `$data` about to be saved as post meta.
+
+## Update history
+
+**Version 0.2:**
+* Added `textarea` as an input type.
