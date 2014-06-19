@@ -25,7 +25,6 @@ class Base {
 
 	protected $meta_key_postfix = 'meta_value_key';
 
-	protected $plugin_base;
 	protected $plugin_rel_base;
 
 	protected $project_prefix;
@@ -39,14 +38,12 @@ class Base {
 	 * 
 	 * @param string $prefix - prefix for various plugin fields and values
 	 */
-	public function __construct() {
+	public function __construct($child_class_path) {
 
-		$this->plugin_base = rtrim(dirname(__FILE__), '/');
-		$this->plugin_rel_base = dirname(plugin_basename(__FILE__));
+		$this->plugin_rel_base = dirname(plugin_basename($child_class_path));
 
-		register_activation_hook(__FILE__, array(&$this, 'activation_hook'));
-		register_activation_hook(__FILE__, array(&$this, 'deactivation_hook'));
-		register_uninstall_hook(__FILE__, array(get_class(), 'uninstall_hook'));
+		register_activation_hook($child_class_path, array(&$this, 'activation_hook'));
+		register_deactivation_hook($child_class_path, array(&$this, 'deactivation_hook'));
 
 		add_action('init', array($this, 'register_cpt'));
 		add_action('init', array($this, 'register_taxonomies'));
@@ -86,20 +83,9 @@ class Base {
 	}
 
 	public function activation_hook($network_wide) {
-
-		$this->check_requirements();
 	}
 
 	public function deactivation_hook($network_wide) {
-	}
-
-	public static function uninstall_hook($network_wide) {
-
-		if (!defined('WP_UNINSTALL_PLUGIN')) {
-			die();
-		}
-
-		// TODO: remove any created custom posts, taxonomy terms and post meta values!
 	}
 
 	public function register_cpt() {

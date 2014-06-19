@@ -1,14 +1,24 @@
 WPB - WP Plugin Base
 ====================
-0.2 - June 11th 2014
+0.3 - June 19th 2014
 
 Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-base.php` in your project and extend the Base class:
 
 	class MyPlugin extends WPB\Base {
-		# stuff
+		
+		public function __construct() {
+
+			// Set up your stuff here
+
+			parent::__construct(__FILE__);
+		}
 	}
 
 Most of the magic in WPB happens in the constructor, where you set up fields in an associative array and calls the parent constructor to initiate the heavy lifting. You can see a simple working example of how to use the class in `example.php`.
+
+This class aims to use only standard WP functions and not depend on any third-party library, tool or utility.
+
+It is currently being developed using **WordPress 3.9.1**.
 
 ## Features
 
@@ -16,7 +26,6 @@ Most of the magic in WPB happens in the constructor, where you set up fields in 
 * Sets up and registers metaboxes, custom post types, taxonomies, scripts and styles.
 * Renders metaboxes automatically, if custom render method isn't defined.
 * Offers simple hooks before saving and rendering for custom cases.
-* ~~Removes all created data (posts, taxonomy terms, post meta values) when uninstalling plugin.~~ (Not yet implemented.)
 
 #### Prefix
 
@@ -172,6 +181,11 @@ This will show us the old value below the input field as text as you edit the in
 The before callback functions have one parameter, and that is the `$data` about to be saved as post meta.
 
 ## Update history
+
+**Version 0.3**
+* Minor fixes and cleaned up documentation.
+* Removed uninstall callbacks for now.
+* Fixed error where activation_hook() was called twice.
 
 **Version 0.2:**
 * Added `textarea` as an input type.
