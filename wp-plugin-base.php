@@ -13,7 +13,7 @@ namespace WPB;
 */
 
 /**
- * WP Plugin Base 0.3
+ * WP Plugin Base 0.4
  * ==================
  * Extendable PHP class for creation of WordPress plugins.
  * https://github.com/pjnorberg/wp-plugin-base
@@ -27,6 +27,7 @@ class Base {
 
     protected $plugin_rel_base;
 
+    protected $project_name;
     protected $project_prefix;
     protected $post_types;
     protected $stylesheets;
@@ -38,19 +39,19 @@ class Base {
      * 
      * @param string $child_class_path - file path from inheriting class
      */
-    public function __construct($child_class_path, $child_class) {
+    public function __construct($child_class_path) {
 
         $this->plugin_rel_base = dirname(plugin_basename($child_class_path));
 
         register_activation_hook($child_class_path, array(&$this, 'activation_hook'));
         register_deactivation_hook($child_class_path, array(&$this, 'deactivation_hook'));
-        register_uninstall_hook($child_class_path, array($child_class, 'uninstall_hook'));
 
         add_action('init', array($this, 'register_cpt'));
         add_action('init', array($this, 'register_taxonomies'));
         add_action('add_meta_boxes', array($this, 'register_metaboxes'));
         add_action('save_post', array($this, 'save_post_meta'));
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts_hook'));
+        add_action('admin_menu', array($this, 'add_uninstall_menu'));
     }
 
     public function admin_enqueue_scripts_hook($page) {
@@ -89,7 +90,98 @@ class Base {
     public function deactivation_hook($network_wide) {
     }
 
-    static function uninstall_hook() {
+    public function add_uninstall_menu() {
+
+        if (isset($this->project_name)) {
+            add_management_page(
+                'Removes all data created by plugin '.$this->project_name,
+                $this->project_name.' data uninstall',
+                'manage_options',
+                'uninstall_'.$this->project_prefix,
+                array($this, 'uninstall_data')
+            );
+        }
+    }
+
+    public function uninstall_data() {
+
+        echo '<div class="wrap">';
+        echo '<h2>Uninstall data by '.$this->project_name.'</h2>';
+        echo '<form action="" method="get">';
+        echo '<input type="hidden" name="page" value="uninstall_'.$this->project_prefix.'">';
+
+        if (isset($_GET['uninstall'])) {
+
+            $all_posts = new \WP_Query(array(
+                'posts_per_page' => -1,
+                'post_type' => 'any'
+            ));
+
+            $post_meta_count = 0;
+            $taxonomy_term_count = 0;
+            $post_deleted_count = 0;
+
+            foreach ($all_posts->posts as $post) {
+        
+                if (in_array('post_meta', $_GET['uninstall'])) {
+
+                    foreach ($this->metaboxes as $mb_key => $mb) {
+                        foreach ($mb['post_meta'] as $post_meta_key => $post_meta_settings) {
+                            if (delete_post_meta($post->ID, $this->project_prefix.'_'.$post_meta_key.'_'.$this->meta_key_postfix)) {
+                                $post_meta_count++;
+                            }
+                        }
+                    }
+                }
+
+                if (in_array('custom_posts', $_GET['uninstall'])) {
+
+                    $post_type = str_replace($this->project_prefix.'_', '', $post->post_type);
+
+                    if (array_key_exists($post_type, $this->post_types)) {
+                        if (wp_delete_post($post->ID, true)) {
+                            $post_deleted_count++;
+                        }
+                    }
+                }
+            }
+
+            foreach ($this->taxonomies as $taxonomy_key => $taxonomy_settings) {
+
+                $taxonomy_terms = get_terms($this->project_prefix.'_'.$taxonomy_key, array(
+                    'hide_empty' => false
+                ));
+
+                foreach ($taxonomy_terms as $term) {
+                    if (wp_delete_term($term->term_id, $this->project_prefix.'_'.$taxonomy_key)) {
+                        $taxonomy_term_count++;
+                    }
+                }
+            }
+
+            echo '<p>';
+            echo '<strong>Results:</strong><br>';
+            echo ($post_meta_count ? $post_meta_count.' post meta fields removed from database.<br>' : '');
+            echo ($taxonomy_term_count ? $taxonomy_term_count.' taxonomy terms removed from database.<br>' : '');
+            echo ($post_deleted_count ? $post_deleted_count.' custom posts removed from database.<br>' : '');
+            echo '</p>';
+        
+        } else {
+
+            if (isset($this->metaboxes))
+                echo '<p><label><input type="checkbox" name="uninstall[]" value="post_meta">Post meta</label></p>';
+
+            if (isset($this->taxonomies))
+                echo '<p><label><input type="checkbox" name="uninstall[]" value="taxonomy_terms">Taxonomy terms</label></p>';
+
+            if (isset($this->post_types))
+                echo '<p><label><input type="checkbox" name="uninstall[]" value="custom_posts">Custom posts</label></p>';
+
+            echo '<p><input type="submit" class="button action" value="Remove data from database"></p>';
+        }
+
+        echo '</form>';
+        echo '</div>';
     }
 
     public function register_cpt() {

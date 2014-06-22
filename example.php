@@ -18,6 +18,10 @@ class ExamplePlugin extends WPB\Base {
 
     public function __construct() {
 
+        // Set a human-friendly name:
+
+        $this->project_name = 'WPB Example';
+
         // Set up project prefix used to name fields and variables:
 
         $this->project_prefix = 'wpb';
@@ -52,7 +56,7 @@ class ExamplePlugin extends WPB\Base {
                         'label' => __('Writer', $this->translate_domain),
                         'type' => 'text',
                         'before_render' => 'custom_before_render',
-                        'before_save' => 'custom_before_save'
+                        'before_save' => 'custom_before_save',
                     ),
                     'checkboxes' => array(
                         'label' => __('Checkboxes', $this->translate_domain),
@@ -135,7 +139,7 @@ class ExamplePlugin extends WPB\Base {
             )
         );
 
-        parent::__construct(__FILE__, get_class());
+        parent::__construct(__FILE__);
     }
 
     public function custom_rendering_function($meta_key, $data) {

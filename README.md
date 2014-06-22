@@ -1,6 +1,6 @@
 WPB - WP Plugin Base
 ====================
-0.3 - June 19th 2014
+0.4 - June 22nd 2014
 
 Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-base.php` in your project and extend the Base class:
 
@@ -8,7 +8,9 @@ Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-
 		
 		public function __construct() {
 
-			// Set up your stuff here
+			// Set up your stuff here:
+			$this->project_name = 'WPB Example';
+			$this->project_prefix = 'wpb';
 
 			parent::__construct(__FILE__);
 		}
@@ -26,6 +28,7 @@ It is currently being developed using **WordPress 3.9.1**.
 * Sets up and registers metaboxes, custom post types, taxonomies, scripts and styles.
 * Renders metaboxes automatically, if custom render method isn't defined.
 * Offers simple hooks before saving and rendering for custom cases.
+* Admin view to automatically remove all created data (post meta, taxonomy terms, custom posts) before uninstalling.
 
 #### Prefix
 
@@ -34,6 +37,10 @@ It is recommended that you choose a project-specific slug to use as a prefix for
 Set it by defining `$project_prefix` in your class constructor:
 
 	$this->project_prefix = 'wpb';
+
+You should also create a name for your project, if you want to show a data removal page in the Tools admin section:
+
+	$this->project_name = 'WPB Example';
 
 #### Metaboxes
 
@@ -181,6 +188,9 @@ This will show us the old value below the input field as text as you edit the in
 The before callback functions have one parameter, and that is the `$data` about to be saved as post meta.
 
 ## Update history
+
+**Version 0.4**
+* Added data removal page in Admin > Tools menu.
 
 **Version 0.3**
 * Minor fixes and cleaned up documentation.
