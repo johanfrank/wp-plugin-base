@@ -135,7 +135,7 @@ class ExamplePlugin extends WPB\Base {
             )
         );
 
-        parent::__construct(__FILE__);
+        parent::__construct(__FILE__, get_class());
     }
 
     public function custom_rendering_function($meta_key, $data) {

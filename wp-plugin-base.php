@@ -38,12 +38,13 @@ class Base {
      * 
      * @param string $child_class_path - file path from inheriting class
      */
-    public function __construct($child_class_path) {
+    public function __construct($child_class_path, $child_class) {
 
         $this->plugin_rel_base = dirname(plugin_basename($child_class_path));
 
         register_activation_hook($child_class_path, array(&$this, 'activation_hook'));
         register_deactivation_hook($child_class_path, array(&$this, 'deactivation_hook'));
+        register_uninstall_hook($child_class_path, array($child_class, 'uninstall_hook'));
 
         add_action('init', array($this, 'register_cpt'));
         add_action('init', array($this, 'register_taxonomies'));
@@ -86,6 +87,9 @@ class Base {
     }
 
     public function deactivation_hook($network_wide) {
+    }
+
+    static function uninstall_hook() {
     }
 
     public function register_cpt() {
