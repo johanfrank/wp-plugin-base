@@ -1,6 +1,6 @@
 WPB - WP Plugin Base
 ====================
-0.4 - June 22nd 2014
+0.5 - June 23nd 2014
 
 Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-base.php` in your project and extend the Base class:
 
@@ -188,6 +188,11 @@ This will show us the old value below the input field as text as you edit the in
 The before callback functions have one parameter, and that is the `$data` about to be saved as post meta.
 
 ## Update history
+
+**Version 0.5**
+* Fixed bug where post meta fields could only be edited on custom post types.
+* Image preview for media field type.
+* Added function to render templates.
 
 **Version 0.4**
 * Added data removal page in Admin > Tools menu.

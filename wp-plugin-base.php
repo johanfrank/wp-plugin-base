@@ -13,7 +13,7 @@ namespace WPB;
 */
 
 /**
- * WP Plugin Base 0.4
+ * WP Plugin Base 0.5
  * ==================
  * Extendable PHP class for creation of WordPress plugins.
  * https://github.com/pjnorberg/wp-plugin-base
@@ -56,6 +56,7 @@ class Base {
 
     public function admin_enqueue_scripts_hook($page) {
 
+        wp_enqueue_media();
         wp_enqueue_script('wpb-base', plugins_url($this->plugin_rel_base.'/wp-plugin-base.js'), array('jquery', 'wp-color-picker'));
         wp_enqueue_style('wp-color-picker');
 
@@ -218,6 +219,26 @@ class Base {
         }
     }
 
+    public function get_post_type($post_type) {
+
+        switch ($post_type) {
+
+            case 'post':
+                $post_type = 'post';
+                break;
+
+            case 'page':
+                $post_type = 'page';
+                break;
+            
+            default:
+                $post_type = $this->project_prefix.'_'.$post_type;
+                break;
+        }
+
+        return $post_type;        
+    }
+
     public function register_metaboxes() {
 
         if ($this->metaboxes) {
@@ -227,11 +248,13 @@ class Base {
                 $context = (isset($mb['metabox']['context']) ? $mb['metabox']['context'] : 'advanced');
                 $priority = (isset($mb['metabox']['priority']) ? $mb['metabox']['priority'] : 'default');
 
+                $post_type = $this->get_post_type($mb['metabox']['post_type']);
+
                 add_meta_box(
                     $this->project_prefix.'_'.$key,
                     $mb['metabox']['title'],
                     array($this, 'register_metabox_callback'),
-                    $this->project_prefix.'_'.$mb['metabox']['post_type'],
+                    $post_type,
                     $context,
                     $priority
                 );
@@ -246,7 +269,10 @@ class Base {
         $this->load_post_meta($post->ID);
 
         foreach ($this->metaboxes as $key => $mb) {
-            if ($post->post_type == $this->project_prefix.'_'.$mb['metabox']['post_type']) {
+
+            $post_type = $this->get_post_type($mb['metabox']['post_type']);
+
+            if ($post->post_type == $post_type) {
                 foreach ($mb['post_meta'] as $meta_key => $data) {
                     echo (isset($mb['metabox']['render']) ? $this->{$mb['metabox']['render']}($meta_key, $data) : $this->render($meta_key, $data));
                 }
@@ -264,7 +290,10 @@ class Base {
 
             case 'media':
                 $output .= '<label class="media">';
+                $output .= ($content ? '<img height="150" src="'.$content.'" class="choosen-image">' : '');
+                $output .= '<div class="inputs">';
                 $output .= '<strong>'.$data['label'].'</strong><br><input data-field="media" id="'.$meta_key.'_meta_value_field" name="'.$meta_key.'_meta_value_field" type="text" class="widefat" value="'.$content.'" style="width: 50%; margin-right: 5px;">';
+                $output .= '</div>';
                 $output .= '</label>';
                 $output .= '<input data-clear="'.$meta_key.'_meta_value_field" class="button button-primary" type="button" value="Clear">';
                 $output .= '<br>';
@@ -374,5 +403,13 @@ class Base {
                 }
             }
         }
+    }
+
+    public function template($file = null) {
+
+        if (!$file)
+            return false;
+        
+        include_once("templates/$file.php");
     }
 }

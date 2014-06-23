@@ -1,6 +1,7 @@
 (function ($) {
 
     $(document).ready(function () {
+
         $('[data-field=colorpicker]').each(function() {
             $(this).wpColorPicker();
         });
@@ -35,6 +36,8 @@
 
                 if (_custom_media) {
                     $("#"+id).val(attachment.url);
+                    $('.choosen-image').remove();
+                    $("#"+id).parent().before('<img class="choosen-image" src="'+attachment.url+'" height="150">');
                 } else {
                     return _orig_send_attachment.apply(this, [props, attachment]);
                 };
