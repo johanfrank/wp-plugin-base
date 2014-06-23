@@ -406,10 +406,13 @@ class Base {
         }
     }
 
-    public function template($file = null) {
+    public function template($file = null, $args = array()) {
 
         if (!$file)
             return false;
+
+        if (!empty($args))
+            extract($args);
         
         include_once("templates/$file.php");
     }
