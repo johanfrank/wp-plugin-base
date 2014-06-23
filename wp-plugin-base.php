@@ -29,6 +29,7 @@ class Base {
 
     protected $project_name;
     protected $project_prefix;
+    protected $metaboxes;
     protected $post_types;
     protected $stylesheets;
     protected $scripts;
