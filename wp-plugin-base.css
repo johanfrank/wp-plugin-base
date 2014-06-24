@@ -1,0 +1,11 @@
+.choosen-image {
+    max-width: 150px;
+    cursor: pointer;
+}
+
+span[data-clear],
+.choosen-image {
+    cursor: pointer;
+    color: #0074a2;
+    text-decoration: underline;
+}

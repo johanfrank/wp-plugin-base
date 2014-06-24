@@ -1,6 +1,6 @@
 WPB - WP Plugin Base
 ====================
-0.5 - June 23nd 2014
+0.6 - June 24nd 2014
 
 Extendable PHP class for creation of WordPress plugins. Just include `wp-plugin-base.php` in your project and extend the Base class:
 
@@ -29,6 +29,10 @@ It is currently being developed using **WordPress 3.9.1**.
 * Renders metaboxes automatically, if custom render method isn't defined.
 * Offers simple hooks before saving and rendering for custom cases.
 * Admin view to automatically remove all created data (post meta, taxonomy terms, custom posts) before uninstalling.
+
+#### Requirements
+
+* PHP 5.4+
 
 #### Prefix
 
@@ -188,6 +192,10 @@ This will show us the old value below the input field as text as you edit the in
 The before callback functions have one parameter, and that is the `$data` about to be saved as post meta.
 
 ## Update history
+
+**Version 0.6**
+* Refactored image upload field.
+* Added WPB CSS file and moved inline CSS.
 
 **Version 0.5**
 * Fixed bug where post meta fields could only be edited on custom post types.

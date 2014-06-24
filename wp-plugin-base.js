@@ -5,11 +5,15 @@
         $('[data-field=colorpicker]').each(function() {
             $(this).wpColorPicker();
         });
+
         $('[data-field=media]').each(function() {
             handleImageUploads('#' + $(this).attr('id'));
         });
+
         $('[data-clear]').click(function() {
-            $('#' + $(this).attr('data-clear')).val('');
+            $('[name=' + $(this).attr('data-clear') + ']').val('');
+            $('#' + $(this).attr('data-clear')).attr('src', '');
+            $(this).addClass('hidden');
         });
     });
 
@@ -35,9 +39,9 @@
             wp.media.editor.send.attachment = function(props, attachment) {
 
                 if (_custom_media) {
-                    $("#"+id).val(attachment.url);
-                    $('.choosen-image').remove();
-                    $("#"+id).parent().before('<img class="choosen-image" src="'+attachment.url+'" height="150">');
+                    $('[name='+id+']').val(attachment.url);
+                    $("#"+id).attr('src', attachment.url);
+                    $('[data-clear='+id+']').removeClass('hidden');
                 } else {
                     return _orig_send_attachment.apply(this, [props, attachment]);
                 };

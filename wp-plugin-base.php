@@ -13,7 +13,7 @@ namespace WPB;
 */
 
 /**
- * WP Plugin Base 0.5
+ * WP Plugin Base 0.6
  * ==================
  * Extendable PHP class for creation of WordPress plugins.
  * https://github.com/pjnorberg/wp-plugin-base
@@ -59,6 +59,7 @@ class Base {
 
         wp_enqueue_media();
         wp_enqueue_script('wpb-base', plugins_url($this->plugin_rel_base.'/wp-plugin-base.js'), array('jquery', 'wp-color-picker'));
+        wp_enqueue_style('wpb-base', plugins_url($this->plugin_rel_base.'/wp-plugin-base.css'));
         wp_enqueue_style('wp-color-picker');
 
         if ($this->stylesheets) {
@@ -290,14 +291,14 @@ class Base {
         switch ($type) {
 
             case 'media':
-                $output .= '<label class="media">';
-                $output .= ($content ? '<img height="150" src="'.$content.'" class="choosen-image">' : '');
+                $output .= '<strong>'.$data['label'].'</strong><br>';
+                $output .= '<label class="media-container">';
+                $output .= '<img src="'.$content.'" class="choosen-image" data-field="media" id="'.$meta_key.'_meta_value_field" alt="Select image">';
                 $output .= '<div class="inputs">';
-                $output .= '<strong>'.$data['label'].'</strong><br><input data-field="media" id="'.$meta_key.'_meta_value_field" name="'.$meta_key.'_meta_value_field" type="text" class="widefat" value="'.$content.'" style="width: 50%; margin-right: 5px;">';
+                $output .= '<input name="'.$meta_key.'_meta_value_field" type="hidden" value="'.$content.'">';
                 $output .= '</div>';
                 $output .= '</label>';
-                $output .= '<input data-clear="'.$meta_key.'_meta_value_field" class="button button-primary" type="button" value="Clear">';
-                $output .= '<br>';
+                $output .= '<span'.(empty($content) ? ' class="hidden"' : '').' data-clear="'.$meta_key.'_meta_value_field">Remove image</span>';
                 break;
 
             case 'colorpicker':
@@ -411,6 +412,7 @@ class Base {
         if (!$file)
             return false;
 
+        // Use $args to pass variables to the template, using compact() or manually:
         if (!empty($args))
             extract($args);
         
