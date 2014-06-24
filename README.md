@@ -22,6 +22,10 @@ This class aims to use only standard WP functions and not depend on any third-pa
 
 It is currently being developed using **WordPress 3.9.1**.
 
+## Requirements
+
+* PHP 5.4+
+
 ## Features
 
 * Handles reading and writing post meta automatically.
