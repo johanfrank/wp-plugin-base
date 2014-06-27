@@ -9,3 +9,7 @@ span[data-clear],
     color: #0074a2;
     text-decoration: underline;
 }
+
+.postbox small {
+    display: block;
+}

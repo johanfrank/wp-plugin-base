@@ -58,8 +58,8 @@ class Base {
     public function admin_enqueue_scripts_hook($page) {
 
         wp_enqueue_media();
-        wp_enqueue_script('wpb-base', plugins_url($this->plugin_rel_base.'/wp-plugin-base.js'), array('jquery', 'wp-color-picker'));
-        wp_enqueue_style('wpb-base', plugins_url($this->plugin_rel_base.'/wp-plugin-base.css'));
+        wp_enqueue_script('wpb-base', plugins_url($this->plugin_rel_base.'/lib/wpb/wp-plugin-base.js'), array('jquery', 'wp-color-picker'));
+        wp_enqueue_style('wpb-base', plugins_url($this->plugin_rel_base.'/lib/wpb/wp-plugin-base.css'));
         wp_enqueue_style('wp-color-picker');
 
         if ($this->stylesheets) {

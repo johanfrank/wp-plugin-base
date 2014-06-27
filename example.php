@@ -8,7 +8,7 @@
 * Author URI: http://johannorberg.biz
 */
 
-include_once('wp-plugin-base.php');
+include_once('lib/wpb/wp-plugin-base.php');
 
 class ExamplePlugin extends WPB\Base {
 
