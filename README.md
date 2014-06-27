@@ -36,7 +36,7 @@ It is currently being developed using **WordPress 3.9.1**.
 
 ## Configuration
 
-#### Prefix
+#### Name and prefix
 
 It is recommended that you choose a project-specific slug to use as a prefix for all meta keys, values and various fields.
 
