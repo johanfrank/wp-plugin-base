@@ -34,9 +34,7 @@ It is currently being developed using **WordPress 3.9.1**.
 * Offers simple hooks before saving and rendering for custom cases.
 * Admin view to automatically remove all created data (post meta, taxonomy terms, custom posts) before uninstalling.
 
-#### Requirements
-
-* PHP 5.4+
+## Configuration
 
 #### Prefix
 
